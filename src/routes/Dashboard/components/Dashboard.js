@@ -7,14 +7,15 @@ class DashboardRoute extends React.Component {
   }
 
   render() {
+    const {dashboard} = this.props;
     return (
-      <Dashboard dashboard={this.props.dashboard} />
+      <Dashboard visitCount={dashboard.visitCount} dashboardItems={dashboard.dashboardItems} />
     );
   }
 }
 
 DashboardRoute.propTypes = {
-  dashboard     : React.PropTypes.number.isRequired,
+  dashboard     : React.PropTypes.object.isRequired,
   dashboardVisitIncrement : React.PropTypes.func.isRequired
 }
 
