@@ -4,7 +4,30 @@ import ListJSX from './ListJSX'
 export class Dashboard extends React.Component {
   state = {
     inputValue: '',
-    editItemIndex: null
+    editItemIndex: null,
+    draggedItemIndex: null
+  }
+
+  handleDragStart = (ev) => {
+    ev.dataTransfer.effectAllowed = 'move';
+    // ev.dataTransfer.setData("text", ev.target);
+    this.setState({draggedItemIndex: ev.target.id});
+  }
+
+  handleDragOver = (ev) => {
+    ev.preventDefault();
+    ev.dataTransfer.dropEffect = 'move';
+  }
+
+  handleDrop = (ev) => {
+    const droppedItemIndex = ev.currentTarget.id;
+    if(this.editItemIndex === null) {
+      this.props.reorderItem({
+        start: this.state.draggedItemIndex,
+        end: droppedItemIndex
+      });
+    }
+    this.setState({draggedItemIndex: null});
   }
 
   onChangeInput = (ev) => {
@@ -50,6 +73,9 @@ export class Dashboard extends React.Component {
         </form>
 
         <ListJSX
+          onDragStart={this.handleDragStart}
+          onDragOver={this.handleDragOver}
+          onDrop={this.handleDrop}
           activeIndex={this.state.editItemIndex}
           dashboardItems={dashboardItems}
           onClick={this.itemOnEdit}/>
