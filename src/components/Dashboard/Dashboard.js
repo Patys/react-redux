@@ -10,7 +10,7 @@ export class Dashboard extends React.Component {
 
   handleDragStart = (ev) => {
     ev.dataTransfer.effectAllowed = 'move';
-    // ev.dataTransfer.setData("text", ev.target);
+    ev.dataTransfer.setData("text/html", ev.currentTarget);
     this.setState({draggedItemIndex: ev.target.id});
   }
 
@@ -21,12 +21,12 @@ export class Dashboard extends React.Component {
 
   handleDrop = (ev) => {
     const droppedItemIndex = ev.currentTarget.id;
-    if(this.editItemIndex === null) {
+    // if(this.editItemIndex === null) {
       this.props.reorderItem({
         start: this.state.draggedItemIndex,
         end: droppedItemIndex
       });
-    }
+    // }
     this.setState({draggedItemIndex: null});
   }
 
